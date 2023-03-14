@@ -12,7 +12,7 @@ function toggleDropdown(dropdownId) {
   }
 
 /* Shape Button Handler */
-const buttons = document.querySelectorAll('.button_func');
+const buttons = document.querySelectorAll('.shape');
 buttons.forEach(button => {
   button.addEventListener('click', () => {
     buttons.forEach(btn => btn.classList.remove('active'));
