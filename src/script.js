@@ -1,18 +1,7 @@
-var colors = [];
-var points = [];
-var rotationMatrix;
-var rotationMatrixLoc;
 
-var NumVertices = 36
-var angle = 0.0;
-var axis = [0, 1, 0];
+var worldMatrix
+var matWorldLocation
 
-var trackingMouse = false;
-var trackballMove = false;
-
-var lastPos = [0, 0, 0];
-var curx, cury;
-var startX, startY;
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -42,41 +31,50 @@ window.onload = function init() {
   canvas = document.getElementById("gl-canvas");
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
-  colorCube();
-  gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(0.8, 0.8, 0.8, 1.0);
-
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
   program = initShaders(gl, "vertex-shader", "fragment-shader");
-  gl.useProgram(program);
+  
 
-  var cBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
+  var boxVertexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBuffer);
+  console.log(new Float32Array(boxVertices))
+  
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
 
-  var vColor = gl.getAttribLocation(program, "vColor");
-  gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
-  gl.enableVertexAttribArray(vColor);
-
-  var vBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
+  var boxIndexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBuffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
+  console.log(boxIndices)
 
   var vPosition = gl.getAttribLocation(program, "vPosition");
-  gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(vPosition,3,gl.FLOAT,gl.FALSE,6 * Float32Array.BYTES_PER_ELEMENT,0);
   gl.enableVertexAttribArray(vPosition);
 
+  var vColor = gl.getAttribLocation(program, "vColor");
+  gl.vertexAttribPointer(vColor,3,gl.FLOAT,gl.FALSE,6 * Float32Array.BYTES_PER_ELEMENT,3 * Float32Array.BYTES_PER_ELEMENT,);
+  gl.enableVertexAttribArray(vColor);
 
-  rotationMatrix = createrotationMatrix(
-    radians(angle), // convert to radians
-    axis
-  );
-  rotationMatrixLoc = gl.getUniformLocation(program, "r");
-  gl.uniformMatrix4fv(rotationMatrixLoc, false, flatten(rotationMatrix));
+  gl.useProgram(program);
+
+  matWorldLocation = gl.getUniformLocation(program, 'mWorld');
+  var matViewLocation = gl.getUniformLocation(program, 'mView');
+  var matProjLocation = gl.getUniformLocation(program, 'mProj');
 
 
-  /* Shape Button Handler */
+  worldMatrix = new Float32Array(16);
+  var viewMatrix = new Float32Array(16);
+  var projMatrix = new Float32Array(16);
+  lookAt(viewMatrix, [0, 2, -5], [0, 0, 0], [0, 1, 0]);
+  perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
+
+  gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
+  gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
+  gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
+
+//   /* Shape Button Handler */
   const buttons = document.querySelectorAll('.shape');
   buttons.forEach(button => {
     button.addEventListener('click', () => {
@@ -90,77 +88,23 @@ window.onload = function init() {
 
 function render() {
 
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  gl.drawArrays(gl.TRIANGLES, 0, NumVertices);
-  requestAnimFrame(render);
-}
-
-function colorCube() {
-
-  quad(0, 1, 2, 1);
-  quad(3, 4, 5, 3);
-  quad( 2,0,3,5)
-  quad(4,1,2,5)
-  quad(4,1,0,3)
-}
-
-function quad(a, b, c, d) {
-  var vertices = [
-    // vec4(-0.5, -0.5, 0.5, 1.0),
-    vec4(-0.3, 0.3, 0.3, 1.0),
-    vec4(0.3, 0.3, 0.3, 1.0),
-    vec4(0.3, -0.3, 0.3, 1.0),
-    // vec4(-0.3, -0.3, -0.3, 1.0),
-    vec4(-0.3, 0.3, -0.3, 1.0),
-    vec4(0.3, 0.3, -0.3, 1.0),
-    vec4(0.3, -0.3, -0.3, 1.0)
-  ];
-
-  var vertexColors = [
-    [0.0, 0.0, 0.0, 1.0],  // black
-    [1.0, 0.0, 0.0, 1.0],  // red
-    [1.0, 1.0, 0.0, 1.0],  // yellow
-    [0.0, 1.0, 0.0, 1.0],  // green
-    [0.0, 0.0, 1.0, 1.0],  // blue
-    [1.0, 0.0, 1.0, 1.0],  // magenta
-    [0.0, 1.0, 1.0, 1.0],  // cyan
-    [1.0, 1.0, 1.0, 1.0]   // white
-  ];
-
-  var indices = [a, b, c, a, c, d];
-
-  for (var i = 0; i < indices.length; ++i) {
-    points.push(vertices[indices[i]]);
-
-    colors.push(vertexColors[a]);
-
+  var mIdentity = new Float32Array(16);
+  identity(mIdentity);
+  var rotAngle =0
+  var loop = () => {
+    rotAngle = performance.now() / 1000 * Math.PI;
+    axis = [0, 1, 0]
+    rotate(worldMatrix, mIdentity, rotAngle, axis );
+    gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
+    gl.clearColor(0.6, 0.6, 0.6, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+    requestAnimationFrame(loop);
   }
-}
-
-function createrotationMatrix(angle, axis) {
-  var c = Math.cos(angle);
-  var s = Math.sin(angle);
-  var t = 1 - c;
-  var x = axis[0], y = axis[1], z = axis[2];
-  var tx = t * x, ty = t * y;
-  return [
-    tx * x + c, tx * y - s * z, tx * z + s * y, 0,
-    tx * y + s * z, ty * y + c, ty * z - s * x, 0,
-    tx * z - s * y, ty * z + s * x, t * z * z + c, 0,
-    0, 0, 0, 1
-  ];
-}
-
-function radians(degrees) {
-  return degrees * Math.PI / 180;
-}
-
-function normalize(vec) {
-  var len = Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
-  if (len == 0) {
-    return [0, 0, 0];
-  }
-  return [vec[0] / len, vec[1] / len, vec[2] / len];
+  requestAnimationFrame(loop);
 }
 
 
+const toRadian = (deg) => {
+  return deg / 180 * Math.PI;
+}
