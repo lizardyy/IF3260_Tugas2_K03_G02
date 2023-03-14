@@ -5,7 +5,7 @@ var rotationMatrixLoc;
 
 var NumVertices = 36
 var angle = 0.0;
-var axis = [0, 0, 1];
+var axis = [0, 1, 0];
 
 var trackingMouse = false;
 var trackballMove = false;
