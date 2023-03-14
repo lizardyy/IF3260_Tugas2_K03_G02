@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;500;600;700&display=swap');
+
+* {
+    background-color: #20201e;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+/* WRAPPER */
+.wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CANVAS */
+canvas {
+    display: block;
+    margin: 0 auto;
+    background: black;
+    border: black 1px solid;
+}
+
+/* HEADER */
+#web_title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 1rem auto;
+    color: #fff !important;
+}
+
+/* LINE */
+hr {
+    width: 100%;
+    border: 1px solid #fff;
+    margin: 1rem auto;
+}
+
+/* LAYOUT */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    justify-content: center;
+}
+
+.col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+/* BUTTON */
+.button_func {
+    background-color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 10px;
+    border-radius: 50%;
+}
+
+.button_func.active {
+    background-color: blue;
+    color: white;
+}
+
+/* DROPDOWN */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    padding: 1rem;
+    background-color: white;
+    color: #000;
+    min-width: 200px;
+    bottom: 60px;
+    left: -50px;
+  }
+
+  .show .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content form {
+    background-color: white;
+    font-size: 10pt;
+  }
+
+  .dropdown-content form label {
+    background-color: white;
+    color: #000;
+  }
+
+  .dropdown-content form input {
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid #000;
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+/* RADIO BUTTON */
+input[type="radio"] {
+    display: none;
+  }
+  
+  /* Style the label */
+  .radio-label {
+    display: inline-block;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 0.25em;
+    cursor: pointer;
+  }
+  
+  /* Style the checked state */
+  input[type="radio"]:checked + .radio-label {
+    background-color: #2196f3;
+    color: #fff;
+  }

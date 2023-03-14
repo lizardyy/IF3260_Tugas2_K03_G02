@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    <title>WEBGL 3D</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1 id="web_title">WEBGL 3D</h1>
+        <hr>
+        <div class="row" id="side-row">
+            <div class="col-center">
+                <button class="button_func" id="set-cube">1</button>
+                <br/>
+                <button class="button_func" id="set-shape2">2</button>
+                <br/>
+                <button class="button_func" id="set-shape3">3</button>
+            </div>
+            <canvas id="canvas" width="1200" height="600"></canvas>
+        </div>
+        <div class="row" id="full-row">
+            <button class="button_func" id="projection-btn" onclick="toggleDropdown('projection-form')">P</button>
+            <div class="dropdown" id="projection-form">
+                <div class="dropdown-content">
+                    <form>
+                        <input type="radio" id="orthographic" name="radio-group">
+                        <label for="orthographic" class="radio-label">Orthographic</label><br>     
+                        
+                        <input type="radio" id="oblique" name="radio-group">
+                        <label for="oblique" class="radio-label">Oblique</label><br>     
+
+                        <input type="radio" id="perspective" name="radio-group">
+                        <label for="perspective" class="radio-label">Perspective</label>    
+                    </form>
+                </div>
+            </div>
+
+            <button class="button_func" id="rotate-btn" onclick="toggleDropdown('rotate-form')">R
+            </button>
+            <div class="dropdown" id="rotate-form">
+                <div class="dropdown-content">
+                    <form>
+                        <label for="x-rotate">X Rotation:</label>
+                        <input type="range" id="x-rotation" name="x-rotation" min="-180" max="180" value="0" required>
+                        <br>
+                        
+                        <label for="y-rotate">Y Rotation:</label>
+                        <input type="range" id="y-rotation" name="y-rotation" min="-180" max="180" value="0" required>
+                        <br>
+
+                        <label for="z-rotate">Z Rotation:</label>
+                        <input type="range" id="z-rotation" name="z-rotation" min="-180" max="180" value="0" required>
+                    </form>
+                </div>
+            </div>
+
+            <button class="button_func" id="scale-btn" onclick="toggleDropdown('scale-form')">S</button>
+            <div class="dropdown" id="scale-form">
+                <div class="dropdown-content">
+                    <form>
+                        <label for="x-scale">X Scale:</label>
+                        <input type="range" id="x-scale" name="x-scale" min="0" max="2" value="1" required>
+                        <br>
+                        
+                        <label for="y-scale">Y Scale:</label>
+                        <input type="range" id="y-scale" name="y-scale" min="0" max="2" value="1" required>
+                        <br>
+
+                        <label for="z-scale">Z Scale:</label>
+                        <input type="range" id="z-scale" name="z-scale" min="0" max="2" value="1" required>
+                    </form>
+                </div>
+            </div>
+
+            <button class="button_func" id="translate-btn" onclick="toggleDropdown('translate-form')">T</button>
+            <div class="dropdown" id="translate-form">
+                <div class="dropdown-content">
+                    <form>
+                        <label for="x-translate">X Translation:</label>
+                        <input type="range" id="x-translate" name="x-translate" min="-2" max="2" value="0" required>
+                        <br>
+                        
+                        <label for="y-translate">Y Translation:</label>
+                        <input type="range" id="y-translate" name="y-translate" min="-2" max="2" value="0" required>
+                        <br>
+
+                        <label for="z-translate">Z Translation:</label>
+                        <input type="range" id="z-translate" name="z-translate" min="-2" max="2" value="0" required>
+                    </form>
+                </div>
+            </div>
+
+            <button class="button_func" id="camera-btn" onclick="toggleDropdown('camera-form')">C</button>
+            <div class="dropdown" id="camera-form">
+                <div class="dropdown-content">
+                    <form>
+                        <label for="angle-camera">Angle:</label>
+                        <input type="range" id="angle-camera" name="angle-camera" min="0" max="360" value="0" required>
+                        <br>
+                        
+                        <label for="radius-camera">Radius:</label>
+                        <input type="range" id="radius-camera" name="radius-camera" min="0" max="1" value="0" required>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
