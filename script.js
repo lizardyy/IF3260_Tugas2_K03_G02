@@ -19,3 +19,11 @@ buttons.forEach(button => {
     button.classList.add('active');
   });
 });
+
+/* Upload Handler */
+const uploadButton = document.getElementById("upload-button");
+const fileInput = document.getElementById("file-input");
+
+uploadButton.addEventListener("click", function() {
+  fileInput.click();
+});
