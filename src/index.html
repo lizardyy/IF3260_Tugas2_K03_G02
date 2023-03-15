@@ -82,15 +82,18 @@
                 <div class="dropdown-content">
                     <form>
                         <label for="x-rotate">X Rotation:</label>
+                        <p class="range-value" id="x-rotation-value">0°</p>
                         <input type="range" id="x-rotation" name="x-rotation" min="0" max="360" value="0" required>
                         <br>
                         
                         <label for="y-rotate">Y Rotation:</label>
-                        <input type="range" id="y-rotation" name="y-rotation" min="-180" max="180" value="0" required>
+                        <p class="range-value" id="y-rotation-value">0°</p>
+                        <input type="range" id="y-rotation" name="y-rotation" min="0" max="360" value="0" required>
                         <br>
 
                         <label for="z-rotate">Z Rotation:</label>
-                        <input type="range" id="z-rotation" name="z-rotation" min="-180" max="180" value="0" required>
+                        <p class="range-value" id="z-rotation-value">0°</p>
+                        <input type="range" id="z-rotation" name="z-rotation" min="0" max="360" value="0" required>
                     </form>
                 </div>
             </div>
@@ -100,15 +103,18 @@
                 <div class="dropdown-content">
                     <form>
                         <label for="x-scale">X Scale:</label>
-                        <input type="range" id="x-scale" name="x-scale" min="0" max="2" value="1" required>
+                        <p class="range-value" id="x-scale-value">1</p>
+                        <input type="range" id="x-scale" name="x-scale" min="0" max="2" step="0.05" value="1" required>
                         <br>
                         
                         <label for="y-scale">Y Scale:</label>
-                        <input type="range" id="y-scale" name="y-scale" min="0" max="2" value="1" required>
+                        <p class="range-value" id="y-scale-value">1</p>
+                        <input type="range" id="y-scale" name="y-scale" min="0" max="2" step="0.05" value="1" required>
                         <br>
 
                         <label for="z-scale">Z Scale:</label>
-                        <input type="range" id="z-scale" name="z-scale" min="0" max="2" value="1" required>
+                        <p class="range-value" id="z-scale-value">1</p>
+                        <input type="range" id="z-scale" name="z-scale" min="0" max="2" step="0.05" value="1" required>
                     </form>
                 </div>
             </div>
@@ -118,15 +124,18 @@
                 <div class="dropdown-content">
                     <form>
                         <label for="x-translate">X Translation:</label>
-                        <input type="range" id="x-translate" name="x-translate" min="-2" max="2" value="0" required>
+                        <p class="range-value" id="x-translate-value">0</p>
+                        <input type="range" id="x-translate" name="x-translate" min="-2" max="2" step="0.05" value="0" required>
                         <br>
                         
                         <label for="y-translate">Y Translation:</label>
-                        <input type="range" id="y-translate" name="y-translate" min="-2" max="2" value="0" required>
+                        <p class="range-value" id="y-translate-value">0</p>
+                        <input type="range" id="y-translate" name="y-translate" min="-2" max="2" step="0.05" value="0" required>
                         <br>
 
                         <label for="z-translate">Z Translation:</label>
-                        <input type="range" id="z-translate" name="z-translate" min="-2" max="2" value="0" required>
+                        <p class="range-value" id="z-translate-value">0</p>
+                        <input type="range" id="z-translate" name="z-translate" min="-2" max="2" step="0.05" value="0" required>
                     </form>
                 </div>
             </div>
@@ -136,11 +145,13 @@
                 <div class="dropdown-content">
                     <form>
                         <label for="angle-camera">Angle:</label>
+                        <p class="range-value" id="angle-camera-value">0°</p>
                         <input type="range" id="angle-camera" name="angle-camera" min="0" max="360" value="0" required>
                         <br>
                         
                         <label for="radius-camera">Radius:</label>
-                        <input type="range" id="radius-camera" name="radius-camera" min="0" max="1" value="0" required>
+                        <p class="range-value" id="radius-camera-value">0</p>
+                        <input type="range" id="radius-camera" name="radius-camera" min="0" max="1" step="0.05" value="0" required>
                     </form>
                 </div>
             </div>

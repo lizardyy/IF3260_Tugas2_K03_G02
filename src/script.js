@@ -2,7 +2,6 @@
 var worldMatrix
 var matWorldLocation
 
-
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
     var dropdowns = document.querySelectorAll('.dropdown.show');
@@ -16,6 +15,28 @@ function toggleDropdown(dropdownId) {
     dropdown.classList.toggle("show");
   }
 
+/* Range value Handler */
+const inputs = [
+  {input: document.getElementById('x-rotation'), value: document.getElementById('x-rotation-value'), unit: '°'},
+  {input: document.getElementById('y-rotation'), value: document.getElementById('y-rotation-value'), unit: '°'},
+  {input: document.getElementById('z-rotation'), value: document.getElementById('z-rotation-value'), unit: '°'},
+  {input: document.getElementById('x-scale'), value: document.getElementById('x-scale-value'), unit: ''},
+  {input: document.getElementById('y-scale'), value: document.getElementById('y-scale-value'), unit: ''},
+  {input: document.getElementById('z-scale'), value: document.getElementById('z-scale-value'), unit: ''},
+  {input: document.getElementById('x-translate'), value: document.getElementById('x-translate-value'), unit: ''},
+  {input: document.getElementById('y-translate'), value: document.getElementById('y-translate-value'), unit: ''},
+  {input: document.getElementById('z-translate'), value: document.getElementById('z-translate-value'), unit: ''},
+  {input: document.getElementById('angle-camera'), value: document.getElementById('angle-camera-value'), unit: '°'},
+  {input: document.getElementById('radius-camera'), value: document.getElementById('radius-camera-value'), unit: ''}
+];
+
+inputs.forEach(({input, value, unit}) => {
+  input.addEventListener('input', () => {
+    value.innerText = input.value + unit;
+  });
+});
+
+
 /* Upload Handler */
 document.addEventListener("DOMContentLoaded", function() {
   const uploadButton = document.getElementById("upload-button");
@@ -23,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   uploadButton.addEventListener("click", function() {
     fileInput.click();
-    console.log("kepencet");
   });
 });
 
