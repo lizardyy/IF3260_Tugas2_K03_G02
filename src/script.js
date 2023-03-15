@@ -61,14 +61,12 @@ window.onload = function init() {
 
   var boxVertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBuffer);
-  console.log(new Float32Array(boxVertices))
   
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(boxVertices), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
 
   var boxIndexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBuffer);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
-  console.log(boxIndices)
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
 
   var vPosition = gl.getAttribLocation(program, "vPosition");
   gl.vertexAttribPointer(vPosition,3,gl.FLOAT,gl.FALSE,6 * Float32Array.BYTES_PER_ELEMENT,0);
@@ -113,13 +111,13 @@ function render() {
   identity(mIdentity);
   var rotAngle =0
   var loop = () => {
-    rotAngle = performance.now() / 1000 * Math.PI;
+    rotAngle = performance.now() / 10000 * Math.PI;
     axis = [0, 1, 0]
     rotate(worldMatrix, mIdentity, rotAngle, axis );
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
     gl.clearColor(0.6, 0.6, 0.6, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
