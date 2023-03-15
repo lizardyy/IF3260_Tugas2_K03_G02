@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.onload = function init() {
-  canvas = document.getElementById("gl-canvas");
+  canvas = document.getElementById("canvas");
+  console.log(canvas)
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
   gl.clearColor(0.8, 0.8, 0.8, 1.0);
