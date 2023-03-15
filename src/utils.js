@@ -151,3 +151,7 @@ function vec4() {
 
     return result.splice(0, 4);
 }
+
+function changeShading() {
+
+}

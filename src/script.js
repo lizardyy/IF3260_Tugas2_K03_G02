@@ -1,6 +1,7 @@
 
 var worldMatrix
 var matWorldLocation
+var state
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -47,6 +48,17 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+/* Default State */
+function defaultState() {
+  state = {
+    animation : true,
+    time : 0,
+    number : 0,
+    shading : true,
+  };
+}
+
+/* Initialize */
 window.onload = function init() {
   canvas = document.getElementById("canvas");
   console.log(canvas)
@@ -58,15 +70,11 @@ window.onload = function init() {
 
   program = initShaders(gl, "vertex-shader", "fragment-shader");
   
-
   var boxVertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, boxVertexBuffer);
   
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
-
   var boxIndexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBuffer);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
 
   var vPosition = gl.getAttribLocation(program, "vPosition");
   gl.vertexAttribPointer(vPosition,3,gl.FLOAT,gl.FALSE,6 * Float32Array.BYTES_PER_ELEMENT,0);
@@ -93,7 +101,7 @@ window.onload = function init() {
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
-//   /* Shape Button Handler */
+/* Shape Button Handler */
   const buttons = document.querySelectorAll('.shape');
   buttons.forEach(button => {
     button.addEventListener('click', () => {
@@ -102,28 +110,94 @@ window.onload = function init() {
     });
   });
 
+  defaultState();
   render();
 }
 
+/* Render */
 function render() {
-
   var mIdentity = new Float32Array(16);
   identity(mIdentity);
-  var rotAngle =0
+  var rotAngle = 0;
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
+  gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
   var loop = () => {
-    rotAngle = performance.now() / 10000 * Math.PI;
+    if (state.animation){
+      state.time++;
+      rotAngle = state.time / 1000 * Math.PI
+    } 
+
+    if (state.shading){
+
+    }
     axis = [0, 1, 0]
-    rotate(worldMatrix, mIdentity, rotAngle, axis );
+    rotate(worldMatrix, mIdentity, rotAngle, axis);
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
     gl.clearColor(0.6, 0.6, 0.6, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[state.number]), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[state.number]), gl.STATIC_DRAW);
+    gl.drawElements(gl.TRIANGLES, indices[state.number].length, gl.UNSIGNED_SHORT, 0);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
 }
 
-
 const toRadian = (deg) => {
   return deg / 180 * Math.PI;
 }
+
+function changeShape(model){
+  if (model=='cube'){
+    state.number = 0;
+  } else if (model=='triangular-prism'){
+    state.number = 1;
+  } 
+}
+
+function shaderModel(){
+  if (state.shading){
+    for (var i = 0; i < model.length; i++){
+      var sides = 6;
+      if (state.number == 1){
+        sides = 5;
+      }
+      var color = [0.0, 0.0, 0.0];
+      for (var j = 3; j < model[i].length; j+=6){
+        if (j < sides * 24){
+          color = [(0.25+r)/1.25,(0.25+g)/1.25,(0.25+b)/1.25];
+        } else if (j >= sides * 24 && j < sides * 2 * 24){
+          color = [r/1.2,g/1.2,b/1.2];
+        } else {
+          color = [r,g,b];
+        }
+        model[i][j] = color[0];
+        model[i][j+1] = color[1];
+        model[i][j+2] = color[2];
+      }
+    }
+  } else {
+    for (var i = 0; i < 3; i++){
+      for (var j = 3; j < model[i].length; j+=6){
+        model[i][j] = r;
+        model[i][j+1] = g;
+        model[i][j+2] = b;
+      }
+    }
+  }
+}
+
+function changeShading(e) {
+  state.shading = document.querySelector("#shading").checked;
+  shaderModel();
+}
+
+document.getElementById("shading").addEventListener('change', changeShading, false);
+
+function changeAnimation(e) {
+  state.animation = document.querySelector("#animation").checked;
+}
+
+document.getElementById("animation").addEventListener('change', changeAnimation, false);
+

@@ -39,17 +39,26 @@
         <div class="row" id="side-row">
             <div class="col-center">
                 <p style="color: white; font-weight:500">Shading</p>
-                <label class="toggle-switch" id="shader-option">
-                    <input type="checkbox">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="shading" value="shading" checked>
                     <span class="slider"></span>
                 </label>
-                <button class="button_func shape" id="set-cube">
+                <p style="color: white; font-weight:500">Animation</p>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="animation" value="animation" checked>
+                    <span class="slider"></span>
+                </label>
+                <button class="button_func shape active" id="set-cube" onclick="changeShape('cube')">
                     1
                 </button>
                 <br/>
-                <button class="button_func shape" id="set-shape2">2</button>
+                <button class="button_func shape" id="set-triangularPrism" onclick="changeShape('triangular-prism')">
+                    2
+                </button>
                 <br/>
-                <button class="button_func shape" id="set-shape3">3</button>
+                <button class="button_func shape" id="set-shape3">
+                    3
+                </button>
             </div>
             <canvas id="canvas" width="1200" height="600"></canvas>
             <div class="col-center">
