@@ -178,7 +178,7 @@ function shaderModel(){
       }
     }
   } else {
-    for (var i = 0; i < 3; i++){
+    for (var i = 0; i < model.length; i++){
       for (var j = 3; j < model[i].length; j+=6){
         model[i][j] = r;
         model[i][j+1] = g;
