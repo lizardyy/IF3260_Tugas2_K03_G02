@@ -235,6 +235,16 @@ var triangularPrismVertices =
         0.75, -0.75, -1, r , g , b ,
         -0.75, 0.75, -1, r , g , b ,
 
+        // other
+        0.75, -0.3964466094, 1, (0.3 + r) / 1.4, (0.3 + g) / 1.4, (0.3 + b) / 1.4,
+        - 0.3964466094, 0.75, 1, (0.3 + r) / 1.4, (0.3 + g) / 1.4, (0.3 + b) / 1.4,
+        0.75, -0.3964466094, 0.75, r / 1.3, g / 1.3, b / 1.3,
+        -0.3964466094, 0.75, 0.75, r / 1.3, g / 1.3, b / 1.3,
+
+        0.75, -0.3964466094, -1,  (0.3 + r) / 1.4, (0.3 + g) / 1.4, (0.3 + b) / 1.4,
+        -0.3964466094, 0.75, -1,  (0.3 + r) / 1.4, (0.3 + g) / 1.4, (0.3 + b) / 1.4,
+        0.75, -0.3964466094, -0.75, r / 1.3, g / 1.3, b / 1.3,
+        - 0.3964466094, 0.75, -0.75, r / 1.3, g / 1.3, b / 1.3
     ]
 
 
@@ -260,6 +270,21 @@ for (var i = 0; i < 5; i++) {
     }
     
 }
+
+// other
+triangularPrismIndices.push(20, 22, 62)
+triangularPrismIndices.push(40, 42, 60)
+triangularPrismIndices.push(60, 40, 61)
+triangularPrismIndices.push(62, 20, 63)
+triangularPrismIndices.push(60, 61, 62)
+triangularPrismIndices.push(62, 61, 63)
+
+triangularPrismIndices.push(24, 26, 66)
+triangularPrismIndices.push(66, 24, 67)
+triangularPrismIndices.push(44, 46, 64)
+triangularPrismIndices.push(64, 44, 65)
+triangularPrismIndices.push(64, 65, 66)
+triangularPrismIndices.push(66, 65, 67)
 
 model.push(triangularPrismVertices);
 indices.push(triangularPrismIndices);
