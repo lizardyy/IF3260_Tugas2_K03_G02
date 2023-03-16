@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://example.com/fontawesome/v5.15.4/js/all.js" data-auto-replace-svg></script>
+    <script src="https://kit.fontawesome.com/bd3cec54b7.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>WEBGL 3D</title>
 </head>
@@ -49,7 +49,7 @@
                     <span class="slider"></span>
                 </label>
                 <button class="button_func shape active" id="set-cube" onclick="changeShape('cube')">
-                    1
+                    <i class="fa-solid fa-cube" style="color:black"></i>
                 </button>
                 <br/>
                 <button class="button_func shape" id="set-triangularPrism" onclick="changeShape('triangular-prism')">
@@ -66,13 +66,15 @@
                     <p style="color: white; font-weight:500">Color</p>
                     <input type="color" id="color-picker" name="color-picker" value="#331A66">
                 </div>
-                <button class="button_func" id="reset-draw">Reset</button>
-                <button class="button_func" id="upload-button">Upload</button>
+                <button class="button_func text" id="reset-draw">Reset</button>
+                <button class="button_func text" id="upload-button">Upload</button>
                 <input type="file" id="file-input" style="display:none">
             </div>
         </div>
         <div class="row" id="full-row">
-            <button class="button_func" id="projection-btn" onclick="toggleDropdown('projection-form')">P</button>
+            <button class="button_func" id="projection-btn" onclick="toggleDropdown('projection-form')">
+                <i class="fa-solid fa-video"></i>
+            </button>
             <div class="dropdown" id="projection-form">
                 <div class="dropdown-content">
                     <form>
@@ -89,7 +91,7 @@
             </div>
 
             <button class="button_func" id="rotate-btn" onclick="toggleDropdown('rotate-form')">
-                R
+                <i class="fa-solid fa-rotate"></i>
             </button>
             <div class="dropdown" id="rotate-form">
                 <div class="dropdown-content">
@@ -111,7 +113,9 @@
                 </div>
             </div>
 
-            <button class="button_func" id="scale-btn" onclick="toggleDropdown('scale-form')">S</button>
+            <button class="button_func" id="scale-btn" onclick="toggleDropdown('scale-form')">
+                <i class="fa-solid fa-arrows-left-right"></i>
+            </button>
             <div class="dropdown" id="scale-form">
                 <div class="dropdown-content">
                     <form>
@@ -132,7 +136,9 @@
                 </div>
             </div>
 
-            <button class="button_func" id="translate-btn" onclick="toggleDropdown('translate-form')">T</button>
+            <button class="button_func" id="translate-btn" onclick="toggleDropdown('translate-form')">
+                <i class="fa-solid fa-up-down-left-right"></i>
+            </button>
             <div class="dropdown" id="translate-form">
                 <div class="dropdown-content">
                     <form>
@@ -153,7 +159,9 @@
                 </div>
             </div>
 
-            <button class="button_func" id="camera-btn" onclick="toggleDropdown('camera-form')">C</button>
+            <button class="button_func" id="camera-btn" onclick="toggleDropdown('camera-form')">
+                <i class="fa-solid fa-camera"></i>
+            </button>
             <div class="dropdown" id="camera-form">
                 <div class="dropdown-content">
                     <form>

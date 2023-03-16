@@ -65,7 +65,7 @@ window.onload = function init() {
   console.log(canvas)
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
-  gl.clearColor(0.8, 0.8, 0.8, 1.0);
+  gl.clearColor(0.125, 0.125, 0.118, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
@@ -123,6 +123,7 @@ function render() {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
+  console.log(indices[0]);
   var loop = () => {
     if (state.animation){
       state.time++;
@@ -135,7 +136,7 @@ function render() {
     axis = [0, 1, 0]
     rotate(worldMatrix, mIdentity, rotAngle, axis);
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
-    gl.clearColor(0.6, 0.6, 0.6, 1.0);
+    gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[state.number]), gl.STATIC_DRAW);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[state.number]), gl.STATIC_DRAW);
@@ -180,9 +181,9 @@ function shaderModel(color){
       var color = [0.0, 0.0, 0.0];
       for (var j = 3; j < model[i].length; j+=6){
         if (j < sides * 24){
-          color = [(0.25+r)/1.25,(0.25+g)/1.25,(0.25+b)/1.25];
+          color = [(0.3+r)/1.4,(0.3+g)/1.4,(0.3+b)/1.4];
         } else if (j >= sides * 24 && j < sides * 2 * 24){
-          color = [r/1.2,g/1.2,b/1.2];
+          color = [r/1.3,g/1.3,b/1.3];
         } else {
           color = [r,g,b];
         }
@@ -220,4 +221,4 @@ function changeColor(e) {
   shaderModel(state.color);
 }
 
-document.getElementById("color-picker").addEventListener('change', changeColor, false);
+document.getElementById("color-picker").addEventListener('input', changeColor, false);

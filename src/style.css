@@ -21,8 +21,6 @@
 canvas {
     display: block;
     margin: 1rem auto;
-    background: black;
-    border: black 1px solid;
 }
 
 /* HEADER */
@@ -65,7 +63,6 @@ hr {
     width: 50px;
     height: 50px;
     color: #000;
-    padding: 20px;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
@@ -76,22 +73,19 @@ hr {
 }
 
 .button_func.active {
-    background-color: blue;
+    background-color: #2196F3;
     color: white;
 }
 
-#reset-draw {
+.text {
     width: fit-content;
     min-width: 65px;
-    border-radius: 15%;
-    padding: 10px;
-}
-
-#upload-button {
-    width: fit-content;
-    min-width: 65px;
-    border-radius: 15%;
-    padding: 10px;
+    height: fit-content;
+    min-height: 30px;
+    border-radius: 50%;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    align-self: center;
 }
 
 /* DROPDOWN */
@@ -143,14 +137,13 @@ input[type="radio"] {
   .radio-label {
     display: inline-block;
     padding: 0.5em;
-    border: 1px solid #ccc;
     border-radius: 0.25em;
     cursor: pointer;
   }
   
   input[type="radio"]:checked + .radio-label {
-    background-color: #2196f3;
-    color: #fff;
+    font-weight: 800;
+    text-decoration: underline;
   }
 
 
@@ -245,4 +238,20 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 
 input[type="color"]::-webkit-color-swatch {
   border-radius: 50%;
+}
+
+
+/* ICONS */
+.shape {
+  padding: 0;
+}
+
+.fa-solid {
+  font-family: "Font Awesome 6 Free" !important;
+  font-size: 20px;
+  background-color: white;
+}
+
+.button_func.button_func.active .fa-solid {
+  background-color: #2196F3;
 }
