@@ -123,8 +123,6 @@ window.onload = function init() {
 function render() {
   mIdentity = new Float32Array(16);
   identity(mIdentity);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
   var loop = () => {
     if (state.animation){
@@ -146,6 +144,8 @@ function render() {
 
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[state.number]), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[state.number]), gl.STATIC_DRAW);
     gl.drawElements(gl.TRIANGLES, indices[state.number].length, gl.UNSIGNED_SHORT, 0);
     requestAnimationFrame(loop);
   }
