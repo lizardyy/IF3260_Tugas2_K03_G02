@@ -55,6 +55,7 @@ function defaultState() {
     time : 0,
     number : 0,
     shading : true,
+    color : [0.2 ,0.1 , 0.4],
   };
 }
 
@@ -148,6 +149,15 @@ const toRadian = (deg) => {
   return deg / 180 * Math.PI;
 }
 
+const hexToRgb = (hex) => {
+  var r = parseInt(hex.slice(1, 3), 16) / 255;
+  var g = parseInt(hex.slice(3, 5), 16) / 255;
+  var b = parseInt(hex.slice(5, 7), 16) / 255;
+
+  return [r, g, b];
+}
+
+
 function changeShape(model){
   if (model=='cube'){
     state.number = 0;
@@ -156,7 +166,11 @@ function changeShape(model){
   } 
 }
 
-function shaderModel(){
+function shaderModel(color){
+  let r = color[0]
+  let g = color[1]
+  let b = color[2]
+
   if (state.shading){
     for (var i = 0; i < model.length; i++){
       var sides = 6;
@@ -190,7 +204,7 @@ function shaderModel(){
 
 function changeShading(e) {
   state.shading = document.querySelector("#shading").checked;
-  shaderModel();
+  shaderModel(state.color);
 }
 
 document.getElementById("shading").addEventListener('change', changeShading, false);
@@ -201,3 +215,9 @@ function changeAnimation(e) {
 
 document.getElementById("animation").addEventListener('change', changeAnimation, false);
 
+function changeColor(e) {
+  state.color = hexToRgb(document.querySelector("#color-picker").value);
+  shaderModel(state.color);
+}
+
+document.getElementById("color-picker").addEventListener('change', changeColor, false);
