@@ -2,6 +2,11 @@
 var worldMatrix
 var matWorldLocation
 var state
+var mIdentity
+
+var rotAngle =[0,0,0]
+var translation = [0,0, 0];
+var scale = [1, 1, 1];
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -62,7 +67,6 @@ function defaultState() {
 /* Initialize */
 window.onload = function init() {
   canvas = document.getElementById("canvas");
-  console.log(canvas)
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
   gl.clearColor(0.125, 0.125, 0.118, 1.0);
@@ -92,13 +96,13 @@ window.onload = function init() {
   var matProjLocation = gl.getUniformLocation(program, 'mProj');
 
 
-  worldMatrix = new Float32Array(16);
+  // worldMatrix = new Float32Array(16);
   var viewMatrix = new Float32Array(16);
   var projMatrix = new Float32Array(16);
-  lookAt(viewMatrix, [0, 2, -5], [0, 0, 0], [0, 1, 0]);
-  perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
+  lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
+  perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
 
-  gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
+  // gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
@@ -117,25 +121,27 @@ window.onload = function init() {
 
 /* Render */
 function render() {
-  var mIdentity = new Float32Array(16);
+  mIdentity = new Float32Array(16);
   identity(mIdentity);
-  var rotAngle = 0;
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[0]), gl.STATIC_DRAW);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[0]), gl.STATIC_DRAW);
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
-  console.log(indices[0]);
   var loop = () => {
     if (state.animation){
       state.time++;
-      rotAngle = state.time / 1000 * Math.PI
+      rotAngle[0] = state.time / 1000 * Math.PI
     } 
 
     if (state.shading){
 
     }
-    axis = [0, 1, 0]
-    rotate(worldMatrix, mIdentity, rotAngle, axis);
+    worldMatrix = transformMatrix.projection(2,2, 2)
+    worldMatrix = transformMatrix.translate(worldMatrix, translation[0], translation[1], translation[2]);
+    worldMatrix = transformMatrix.xRotate(worldMatrix, rotAngle[0]);
+    worldMatrix = transformMatrix.yRotate(worldMatrix, rotAngle[1]);
+    worldMatrix = transformMatrix.zRotate(worldMatrix, rotAngle[2]);
+    worldMatrix = transformMatrix.scale(worldMatrix, scale[0], scale[1], scale[2]);
+
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
+
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[state.number]), gl.STATIC_DRAW);
@@ -224,3 +230,25 @@ function changeColor(e) {
 }
 
 document.getElementById("color-picker").addEventListener('input', changeColor, false);
+
+
+function rotateModel(id, angle) {
+  stopAnimation()
+  rotAngle[id] = toRadian(angle)
+}
+
+function translateModel(id, value) {
+  stopAnimation()
+  translation[id] = value
+}
+
+function scaleModel(id, value){
+  stopAnimation()
+  scale[id] = value
+}
+
+function stopAnimation(){
+  document.getElementById("animation").checked = false;
+  state.animation = false
+  rotAngle[0] =0
+}

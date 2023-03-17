@@ -98,17 +98,17 @@
                     <form>
                         <label for="x-rotate">X Rotation:</label>
                         <p class="range-value" id="x-rotation-value">0°</p>
-                        <input type="range" id="x-rotation" name="x-rotation" min="0" max="360" value="0" required>
+                        <input type="range" id="x-rotation" name="x-rotation" min="0" max="360" value="0" oninput="rotateModel(0,this.value)" required >
                         <br>
                         
                         <label for="y-rotate">Y Rotation:</label>
                         <p class="range-value" id="y-rotation-value">0°</p>
-                        <input type="range" id="y-rotation" name="y-rotation" min="0" max="360" value="0" required>
+                        <input type="range" id="y-rotation" name="y-rotation" min="0" max="360" value="0" oninput="rotateModel(1,this.value)"" required>
                         <br>
 
                         <label for="z-rotate">Z Rotation:</label>
                         <p class="range-value" id="z-rotation-value">0°</p>
-                        <input type="range" id="z-rotation" name="z-rotation" min="0" max="360" value="0" required>
+                        <input type="range" id="z-rotation" name="z-rotation" min="0" max="360" value="0"  oninput="rotateModel(2,this.value)" required>
                     </form>
                 </div>
             </div>
@@ -121,17 +121,17 @@
                     <form>
                         <label for="x-scale">X Scale:</label>
                         <p class="range-value" id="x-scale-value">1</p>
-                        <input type="range" id="x-scale" name="x-scale" min="0" max="2" step="0.05" value="1" required>
+                        <input type="range" id="x-scale" name="x-scale" min="0" max="2" step="0.05" value="1" oninput="scaleModel(0,this.value)" required>
                         <br>
                         
                         <label for="y-scale">Y Scale:</label>
                         <p class="range-value" id="y-scale-value">1</p>
-                        <input type="range" id="y-scale" name="y-scale" min="0" max="2" step="0.05" value="1" required>
+                        <input type="range" id="y-scale" name="y-scale" min="0" max="2" step="0.05" value="1" oninput="scaleModel(1,this.value)" required>
                         <br>
 
                         <label for="z-scale">Z Scale:</label>
                         <p class="range-value" id="z-scale-value">1</p>
-                        <input type="range" id="z-scale" name="z-scale" min="0" max="2" step="0.05" value="1" required>
+                        <input type="range" id="z-scale" name="z-scale" min="0" max="2" step="0.05" value="1" oninput="scaleModel(2,this.value)" required>
                     </form>
                 </div>
             </div>
@@ -144,17 +144,17 @@
                     <form>
                         <label for="x-translate">X Translation:</label>
                         <p class="range-value" id="x-translate-value">0</p>
-                        <input type="range" id="x-translate" name="x-translate" min="-2" max="2" step="0.05" value="0" required>
+                        <input type="range" id="x-translate" name="x-translate" min="-2" max="2" step="0.05" value="0" oninput="translateModel(0,this.value)" required>
                         <br>
                         
                         <label for="y-translate">Y Translation:</label>
                         <p class="range-value" id="y-translate-value">0</p>
-                        <input type="range" id="y-translate" name="y-translate" min="-2" max="2" step="0.05" value="0" required>
+                        <input type="range" id="y-translate" name="y-translate" min="-2" max="2" step="0.05" value="0" oninput="translateModel(1,this.value)" required>
                         <br>
 
                         <label for="z-translate">Z Translation:</label>
                         <p class="range-value" id="z-translate-value">0</p>
-                        <input type="range" id="z-translate" name="z-translate" min="-2" max="2" step="0.05" value="0" required>
+                        <input type="range" id="z-translate" name="z-translate" min="-2" max="2" step="0.05" value="0" oninput="translateModel(2,this.value)" required>
                     </form>
                 </div>
             </div>
@@ -182,6 +182,7 @@
     <script type="text/javascript" src="matrix.js"></script>
     <script type="text/javascript" src="utils.js"></script>
     <script type="text/javascript" src="model.js"></script>
+    <script type="text/javascript" src="transformation.js"></script>
     <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
