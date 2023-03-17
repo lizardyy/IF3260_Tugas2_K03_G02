@@ -12,7 +12,7 @@
 | --- | --- | 
 | Mahesa Lizardy | 13520116 |
 | Rania Dwi Fadhilah | 13520142 |
-| Muhammad Hilmi Rinaldi| 13520149 |
+| Mohamad Hilmi Rinaldi| 13520149 |
 
 ### **Cara Penggunaan**
 1. Membuat sesuatu

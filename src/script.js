@@ -169,7 +169,9 @@ function changeShape(model){
     state.number = 0;
   } else if (model=='triangular-prism'){
     state.number = 1;
-  } 
+  } else if (model=='square-pyramid'){
+    state.number = 2;
+  }
 }
 
 function shaderModel(color){
