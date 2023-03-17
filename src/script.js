@@ -70,6 +70,7 @@ window.onload = function init() {
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
   gl.clearColor(0.125, 0.125, 0.118, 1.0);
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
@@ -95,14 +96,11 @@ window.onload = function init() {
   var matViewLocation = gl.getUniformLocation(program, 'mView');
   var matProjLocation = gl.getUniformLocation(program, 'mProj');
 
-
-  // worldMatrix = new Float32Array(16);
   var viewMatrix = new Float32Array(16);
   var projMatrix = new Float32Array(16);
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
 
-  // gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
@@ -153,7 +151,7 @@ function render() {
 }
 
 const toRadian = (deg) => {
-  return deg / 180 * Math.PI;
+  return deg * Math.PI / 180;
 }
 
 const hexToRgb = (hex) => {
@@ -250,5 +248,4 @@ function scaleModel(id, value){
 function stopAnimation(){
   document.getElementById("animation").checked = false;
   state.animation = false
-  rotAngle[0] =0
 }
