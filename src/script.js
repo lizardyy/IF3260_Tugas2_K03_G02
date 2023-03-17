@@ -5,7 +5,7 @@ var state
 var mIdentity
 
 var rotAngle =[0,0,0]
-var translation = [0,0, 0];
+var translation = [0,0,0];
 var scale = [1, 1, 1];
 
 /* Dropdown Handler */
@@ -127,12 +127,11 @@ function render() {
   var loop = () => {
     if (state.animation){
       state.time++;
-      rotAngle[0] = state.time / 1000 * Math.PI
+      rotAngle[0] = state.time / 1000 * Math.PI;
+      rotAngle[1] = state.time / 2000 * Math.PI;
+      rotAngle[2] = state.time / 3000 * Math.PI;
     } 
 
-    if (state.shading){
-
-    }
     worldMatrix = transformMatrix.projection(2,2, 2)
     worldMatrix = transformMatrix.translate(worldMatrix, translation[0], translation[1], translation[2]);
     worldMatrix = transformMatrix.xRotate(worldMatrix, rotAngle[0]);
