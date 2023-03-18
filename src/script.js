@@ -7,6 +7,7 @@ var mIdentity
 var rotAngle =[0,0,0]
 var translation = [0,0,0];
 var scale = [1, 1, 1];
+var rotated =[0,0,0];
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -127,12 +128,24 @@ function render() {
   var loop = () => {
     if (state.animation){
       state.time++;
-      rotAngle[0] = state.time / 1000 * Math.PI;
-      rotAngle[1] = state.time / 2000 * Math.PI;
-      rotAngle[2] = state.time / 3000 * Math.PI;
+      rotAngle[0] += (1/1800 * Math.PI);
+      rotAngle[1] += (1/1800 * Math.PI);
+      rotAngle[2] += (1/1800 * Math.PI);
+      // if (rotated[0] != 0 || rotated[1] != 0 || rotated[2] != 0){
+      //   rotAngle[0] += (state.time / 1800 * Math.PI);
+      //   rotAngle[1] += (state.time / 1800 * Math.PI);
+      //   rotAngle[2] += (state.time / 1800 * Math.PI);
+      //   rotated = [0,0,0]
+      // } else {
+      //   rotAngle[0] += (1/1800 * Math.PI);
+      //   rotAngle[1] += (1/1800 * Math.PI);
+      //   rotAngle[2] += (1/1800 * Math.PI);
+      // }
+
+      console.log("animasi :", rotated);
     } 
 
-    worldMatrix = transformMatrix.projection(2,2, 2)
+    worldMatrix = transformMatrix.projection(2,2,2)
     worldMatrix = transformMatrix.translate(worldMatrix, translation[0], translation[1], translation[2]);
     worldMatrix = transformMatrix.xRotate(worldMatrix, rotAngle[0]);
     worldMatrix = transformMatrix.yRotate(worldMatrix, rotAngle[1]);
@@ -233,21 +246,24 @@ document.getElementById("color-picker").addEventListener('input', changeColor, f
 
 function rotateModel(id, angle) {
   stopAnimation()
-  rotAngle[id] = toRadian(angle)
+  rotAngle[id] += toRadian(angle-rotated[id])
+  rotated = rotAngle;
+  console.log(rotated);
 }
 
 function translateModel(id, value) {
-  stopAnimation()
+  // stopAnimation()
   translation[id] = value
 }
 
 function scaleModel(id, value){
-  stopAnimation()
+  // stopAnimation()
   scale[id] = value
 }
 
 function stopAnimation(){
   document.getElementById("animation").checked = false;
-  state.animation = false
-  rotAngle[0] =0
+  state.animation = false;
+  state.time = 0;
+  rotAngle[0]=0;
 }
