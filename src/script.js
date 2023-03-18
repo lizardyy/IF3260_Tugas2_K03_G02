@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function() {
 function defaultState() {
   state = {
     animation : true,
-    time : 0,
     number : 0,
     shading : true,
     color : [0.2 ,0.1 , 0.4],
@@ -71,6 +70,7 @@ window.onload = function init() {
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
   gl.clearColor(0.125, 0.125, 0.118, 1.0);
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
@@ -96,14 +96,11 @@ window.onload = function init() {
   var matViewLocation = gl.getUniformLocation(program, 'mView');
   var matProjLocation = gl.getUniformLocation(program, 'mProj');
 
-
-  // worldMatrix = new Float32Array(16);
   var viewMatrix = new Float32Array(16);
   var projMatrix = new Float32Array(16);
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
 
-  // gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
@@ -127,22 +124,9 @@ function render() {
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
   var loop = () => {
     if (state.animation){
-      state.time++;
       rotAngle[0] += (1/1800 * Math.PI);
       rotAngle[1] += (1/1800 * Math.PI);
       rotAngle[2] += (1/1800 * Math.PI);
-      // if (rotated[0] != 0 || rotated[1] != 0 || rotated[2] != 0){
-      //   rotAngle[0] += (state.time / 1800 * Math.PI);
-      //   rotAngle[1] += (state.time / 1800 * Math.PI);
-      //   rotAngle[2] += (state.time / 1800 * Math.PI);
-      //   rotated = [0,0,0]
-      // } else {
-      //   rotAngle[0] += (1/1800 * Math.PI);
-      //   rotAngle[1] += (1/1800 * Math.PI);
-      //   rotAngle[2] += (1/1800 * Math.PI);
-      // }
-
-      console.log("animasi :", rotated);
     } 
 
     worldMatrix = transformMatrix.projection(2,2,2)
@@ -165,7 +149,7 @@ function render() {
 }
 
 const toRadian = (deg) => {
-  return deg / 180 * Math.PI;
+  return deg * Math.PI / 180;
 }
 
 const hexToRgb = (hex) => {
@@ -264,6 +248,4 @@ function scaleModel(id, value){
 function stopAnimation(){
   document.getElementById("animation").checked = false;
   state.animation = false;
-  state.time = 0;
-  rotAngle[0]=0;
 }
