@@ -1,12 +1,15 @@
 
 var worldMatrix
 var matWorldLocation
+var matViewLocation
+var viewMatrix
 var state
 var mIdentity
 
 var rotAngle =[0,0,0]
 var translation = [0,0, 0];
 var scale = [1, 1, 1];
+var camAngle = 0;
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -92,12 +95,11 @@ window.onload = function init() {
   gl.useProgram(program);
 
   matWorldLocation = gl.getUniformLocation(program, 'mWorld');
-  var matViewLocation = gl.getUniformLocation(program, 'mView');
+  matViewLocation = gl.getUniformLocation(program, 'mView');
   var matProjLocation = gl.getUniformLocation(program, 'mProj');
 
-
   // worldMatrix = new Float32Array(16);
-  var viewMatrix = new Float32Array(16);
+  viewMatrix = new Float32Array(16);
   var projMatrix = new Float32Array(16);
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
@@ -141,6 +143,10 @@ function render() {
     worldMatrix = transformMatrix.scale(worldMatrix, scale[0], scale[1], scale[2]);
 
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
+
+    lookAt(viewMatrix, [Math.sin(camAngle) * 5, 0, Math.cos(camAngle) * 5], [0, 0, 0], [0, 1, 0]);
+    
+    gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
 
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -247,8 +253,13 @@ function scaleModel(id, value){
   scale[id] = value
 }
 
+function changeAngle(value){
+  stopAnimation()
+  camAngle = toRadian(value)
+}
+
 function stopAnimation(){
   document.getElementById("animation").checked = false;
   state.animation = false
-  rotAngle[0] =0
+  // rotAngle[0] =0
 }
