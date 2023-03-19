@@ -142,10 +142,6 @@ function render() {
     worldMatrix = transformMatrix.scale(worldMatrix, scale[0], scale[1], scale[2]);
 
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
-
-    lookAt(viewMatrix, [Math.sin(camAngle) * 5, 0, Math.cos(camAngle) * 5], [0, 0, 0], [0, 1, 0]);
-    lookAt(viewMatrix, [0, 0, camRadius], [0, 0, 0], [0, 1, 0]);
-    
     gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
 
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
@@ -258,11 +254,20 @@ function scaleModel(id, value){
 function changeAngle(value){
   stopAnimation()
   camAngle = toRadian(value)
+  changeCameraPosition()
 }
 
 function changeRadius(value){
   stopAnimation()
   camRadius = value
+  changeCameraPosition()
+}
+
+function changeCameraPosition() {
+  const x = Math.sin(camAngle) * camRadius
+  const y = 0
+  const z = Math.cos(camAngle) * camRadius
+  lookAt(viewMatrix, [x, y, z], [0, 0, 0], [0, 1, 0])
 }
 
 function stopAnimation(){
