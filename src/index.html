@@ -172,8 +172,8 @@
                         <br>
                         
                         <label for="radius-camera">Radius:</label>
-                        <p class="range-value" id="radius-camera-value">0</p>
-                        <input type="range" id="radius-camera" name="radius-camera" min="0" max="1" step="0.05" value="0" required>
+                        <p class="range-value" id="radius-camera-value">5</p>
+                        <input type="range" id="radius-camera" name="radius-camera" min="0" max="100" step="0.05" value="5" oninput="changeRadius(this.value)" required>
                     </form>
                 </div>
             </div>

@@ -10,6 +10,7 @@ var rotAngle =[0,0,0]
 var translation = [0,0,0];
 var scale = [1, 1, 1];
 var camAngle = 0;
+var camRadius = 5;
 var rotated =[0,0,0];
 
 /* Dropdown Handler */
@@ -143,6 +144,7 @@ function render() {
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
 
     lookAt(viewMatrix, [Math.sin(camAngle) * 5, 0, Math.cos(camAngle) * 5], [0, 0, 0], [0, 1, 0]);
+    lookAt(viewMatrix, [0, 0, camRadius], [0, 0, 0], [0, 1, 0]);
     
     gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
 
@@ -256,6 +258,11 @@ function scaleModel(id, value){
 function changeAngle(value){
   stopAnimation()
   camAngle = toRadian(value)
+}
+
+function changeRadius(value){
+  stopAnimation()
+  camRadius = value
 }
 
 function stopAnimation(){
