@@ -79,13 +79,13 @@
             <div class="dropdown" id="projection-form">
                 <div class="dropdown-content">
                     <form>
-                        <input type="radio" id="orthographic" name="radio-group">
+                        <input type="radio" id="orthographic" name="radio-group" onclick="changeProjection('orthographic')">
                         <label for="orthographic" class="radio-label">Orthographic</label><br>     
                         
-                        <input type="radio" id="oblique" name="radio-group">
+                        <input type="radio" id="oblique" name="radio-group" onclick="changeProjection('oblique')">
                         <label for="oblique" class="radio-label">Oblique</label><br>     
 
-                        <input type="radio" id="perspective" name="radio-group">
+                        <input type="radio" id="perspective" name="radio-group" onclick="changeProjection('perspective')">
                         <label for="perspective" class="radio-label">Perspective</label>    
                     </form>
                 </div>

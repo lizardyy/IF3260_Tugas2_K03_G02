@@ -2,7 +2,9 @@
 var worldMatrix
 var matWorldLocation
 var matViewLocation
+var matProjLocation
 var viewMatrix
+var projMatrix
 var state
 var mIdentity
 
@@ -98,11 +100,11 @@ window.onload = function init() {
 
   matWorldLocation = gl.getUniformLocation(program, 'mWorld');
   matViewLocation = gl.getUniformLocation(program, 'mView');
-  var matProjLocation = gl.getUniformLocation(program, 'mProj');
+  matProjLocation = gl.getUniformLocation(program, 'mProj');
 
   // worldMatrix = new Float32Array(16);
   viewMatrix = new Float32Array(16);
-  var projMatrix = new Float32Array(16);
+  projMatrix = new Float32Array(16);
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
 
@@ -119,6 +121,7 @@ window.onload = function init() {
   });
 
   defaultState();
+  stopAnimation();
   render();
 }
 
@@ -143,6 +146,7 @@ function render() {
 
     gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
     gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
+    gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -280,4 +284,17 @@ function stopAnimation(){
   document.getElementById("animation").checked = false;
   state.animation = false
   // rotAngle[0] =0
+}
+
+function changeProjection(type){
+  if (type == 'perspective'){
+    stopAnimation()
+    perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0)
+  } else if (type == 'orthographic') {
+    stopAnimation()
+    orthographic(projMatrix, -3, 3, -1.5, 1.5, 0.1, 100.0)
+  } else if (type == 'oblique'){
+    stopAnimation()
+    // fungsi oblique
+  }
 }
