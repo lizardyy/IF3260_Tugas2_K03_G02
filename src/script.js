@@ -7,9 +7,10 @@ var state
 var mIdentity
 
 var rotAngle =[0,0,0]
-var translation = [0,0, 0];
+var translation = [0,0,0];
 var scale = [1, 1, 1];
 var camAngle = 0;
+var rotated =[0,0,0];
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -60,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function() {
 function defaultState() {
   state = {
     animation : true,
-    time : 0,
     number : 0,
     shading : true,
     color : [0.2 ,0.1 , 0.4],
@@ -73,6 +73,7 @@ window.onload = function init() {
   gl = WebGLUtils.setupWebGL(canvas);
   if (!gl) { alert("WebGL isn't available"); }
   gl.clearColor(0.125, 0.125, 0.118, 1.0);
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
@@ -104,7 +105,6 @@ window.onload = function init() {
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
 
-  // gl.uniformMatrix4fv(matWorldLocation, gl.FALSE, worldMatrix);
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
 
@@ -128,14 +128,12 @@ function render() {
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
   var loop = () => {
     if (state.animation){
-      state.time++;
-      rotAngle[0] = state.time / 1000 * Math.PI
+      rotAngle[0] += (1/1800 * Math.PI);
+      rotAngle[1] += (1/1800 * Math.PI);
+      rotAngle[2] += (1/1800 * Math.PI);
     } 
 
-    if (state.shading){
-
-    }
-    worldMatrix = transformMatrix.projection(2,2, 2)
+    worldMatrix = transformMatrix.projection(2,2,2)
     worldMatrix = transformMatrix.translate(worldMatrix, translation[0], translation[1], translation[2]);
     worldMatrix = transformMatrix.xRotate(worldMatrix, rotAngle[0]);
     worldMatrix = transformMatrix.yRotate(worldMatrix, rotAngle[1]);
@@ -159,7 +157,7 @@ function render() {
 }
 
 const toRadian = (deg) => {
-  return deg / 180 * Math.PI;
+  return deg * Math.PI / 180;
 }
 
 const hexToRgb = (hex) => {
@@ -240,16 +238,18 @@ document.getElementById("color-picker").addEventListener('input', changeColor, f
 
 function rotateModel(id, angle) {
   stopAnimation()
-  rotAngle[id] = toRadian(angle)
+  rotAngle[id] += toRadian(angle-rotated[id])
+  rotated = rotAngle;
+  console.log(rotated);
 }
 
 function translateModel(id, value) {
-  stopAnimation()
+  // stopAnimation()
   translation[id] = value
 }
 
 function scaleModel(id, value){
-  stopAnimation()
+  // stopAnimation()
   scale[id] = value
 }
 
