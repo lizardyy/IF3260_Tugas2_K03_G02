@@ -270,6 +270,12 @@ function changeCameraPosition() {
   lookAt(viewMatrix, [x, y, z], [0, 0, 0], [0, 1, 0])
 }
 
+function resetCameraView(){
+  camAngle = 0
+  camRadius = 5
+  changeCameraPosition()
+}
+
 function stopAnimation(){
   document.getElementById("animation").checked = false;
   state.animation = false
