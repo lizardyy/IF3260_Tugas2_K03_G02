@@ -87,14 +87,20 @@ function perspective(out, fov, aspect, near, far) {
 }
 
 function orthographic(out, left, right, bottom, top, near, far) {
-    let lr = 1 / (left - right);
-    let bt = 1 / (bottom - top);
-    let nf = 1 / (near - far);
+    out[0] = 2 / (right - left); out[1] = 0; out[2] = 0; out[3] = 0;
+    out[4] = 0; out[5] = 2 / (top - bottom); out[6] = 0; out[7] = 0;
+    out[8] = 0; out[9] = 0; out[10] = 2 / (near - far); out[11] = 0;
+    out[12] = (left + right) / (left - right); out[13] = (bottom + top) / (bottom - top); out[14] = (near + far) / (near - far); out[15] = 1;
+}
 
-    out[0] = -2 * lr; out[1] = 0; out[2] = 0; out[3] = 0;
-    out[4] = 0; out[5] = -2 * bt; out[6] = 0; out[7] = 0;
-    out[8] = 0; out[9] = 0; out[10] = 2 * nf; out[11] = 0;
-    out[12] = (left + right) * lr; out[13] = (top + bottom) * bt; out[14] = (far + near) * nf; out[15] = 1;
+function oblique(out, left, right, bottom, top, near, far, alpha, phi){
+    let cotAlpha = 1 / Math.tan(alpha);
+    let cotPhi = 1 / Math.tan(phi);
+
+    out[0] = 2 / (right - left); out[1] = 0; out[2] = 0; out[3] = 0;
+    out[4] = 0; out[5] = 2 / (top - bottom); out[6] = 0; out[7] = 0;
+    out[8] = cotAlpha; out[9] = cotPhi; out[10] = 2 / (near - far); out[11] = 0;
+    out[12] = (left + right) / (left - right); out[13] = (bottom + top) / (bottom - top); out[14] = (near + far) / (near - far); out[15] = 1;
 }
 
 function normalize(vec) {

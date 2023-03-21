@@ -292,9 +292,9 @@ function changeProjection(type){
     perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0)
   } else if (type == 'orthographic') {
     stopAnimation()
-    orthographic(projMatrix, -3, 3, -1.5, 1.5, 0.1, 100.0)
+    orthographic(projMatrix, -3.2, 3.2, -1.8, 1.8, 0.1, 100.0)
   } else if (type == 'oblique'){
     stopAnimation()
-    // fungsi oblique
+    oblique(projMatrix, -2.3, 5.7, -1.3, 2.7, 0.1, 100.0, toRadian(-85), toRadian(-85))
   }
 }
