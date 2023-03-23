@@ -5,15 +5,19 @@ var matViewLocation
 var matProjLocation
 var viewMatrix
 var projMatrix
-var state
 var mIdentity
 
-var rotAngle =[0,0,0]
+var rotAngle = [0,0,0]
 var translation = [0,0,0];
 var scale = [1, 1, 1];
 var camAngle = 0;
 var camRadius = 5;
-var rotated =[0,0,0];
+var rotated = [0,0,0];
+var color = [0.2 ,0.1 , 0.4];
+var animation = false;
+var number = 0;
+var shading = true;
+
 
 /* Dropdown Handler */
 function toggleDropdown(dropdownId) {
@@ -62,12 +66,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* Default State */
 function defaultState() {
-  state = {
-    animation : true,
-    number : 0,
-    shading : true,
-    color : [0.2 ,0.1 , 0.4],
-  };
+  rotAngle = [0,0,0];
+  translation = [0,0,0];
+  scale = [1, 1, 1];
+  camAngle = 0;
+  camRadius = 5;
+  rotated = [0,0,0];
+  color = [0.2 ,0.1 , 0.4];
+  animation = false;
+  number = 0;
+  shading = true;
 }
 
 /* Initialize */
@@ -131,7 +139,7 @@ function render() {
   identity(mIdentity);
   gl.drawElements(gl.TRIANGLES, indices[0].length, gl.UNSIGNED_SHORT, 0);
   var loop = () => {
-    if (state.animation){
+    if (animation){
       rotAngle[0] += (1/1800 * Math.PI);
       rotAngle[1] += (1/1800 * Math.PI);
       rotAngle[2] += (1/1800 * Math.PI);
@@ -150,9 +158,9 @@ function render() {
 
     gl.clearColor(0.125, 0.125, 0.118, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[state.number]), gl.STATIC_DRAW);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[state.number]), gl.STATIC_DRAW);
-    gl.drawElements(gl.TRIANGLES, indices[state.number].length, gl.UNSIGNED_SHORT, 0);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model[number]), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices[number]), gl.STATIC_DRAW);
+    gl.drawElements(gl.TRIANGLES, indices[number].length, gl.UNSIGNED_SHORT, 0);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
@@ -173,13 +181,13 @@ const hexToRgb = (hex) => {
 
 function changeShape(model){
   if (model=='cube'){
-    state.number = 0;
+    number = 0;
   } else if (model=='triangular-prism'){
-    state.number = 1;
+    number = 1;
   } else if (model=='square-pyramid'){
-    state.number = 2;
+    number = 2;
   } else{
-    state.number = 3;
+    number = 3;
   }
 }
 
@@ -188,10 +196,10 @@ function shaderModel(color){
   let g = color[1]
   let b = color[2]
 
-  if (state.shading){
+  if (shading){
     for (var i = 0; i < model.length; i++){
       var sides = 6;
-      if (state.number == 1){
+      if (number == 1){
         sides = 5;
       }
       var color = [0.0, 0.0, 0.0];
@@ -220,21 +228,21 @@ function shaderModel(color){
 }
 
 function changeShading(e) {
-  state.shading = document.querySelector("#shading").checked;
-  shaderModel(state.color);
+  shading = document.querySelector("#shading").checked;
+  shaderModel(color);
 }
 
 document.getElementById("shading").addEventListener('change', changeShading, false);
 
 function changeAnimation(e) {
-  state.animation = document.querySelector("#animation").checked;
+  animation = document.querySelector("#animation").checked;
 }
 
 document.getElementById("animation").addEventListener('change', changeAnimation, false);
 
 function changeColor(e) {
-  state.color = hexToRgb(document.querySelector("#color-picker").value);
-  shaderModel(state.color);
+  color = hexToRgb(document.querySelector("#color-picker").value);
+  shaderModel(color);
 }
 
 document.getElementById("color-picker").addEventListener('input', changeColor, false);
@@ -278,12 +286,14 @@ function changeCameraPosition() {
 function resetCameraView(){
   camAngle = 0
   camRadius = 5
+  defaultState()
   changeCameraPosition()
+  console.log('reset')
 }
 
 function stopAnimation(){
   document.getElementById("animation").checked = false;
-  state.animation = false
+  animation = false
   // rotAngle[0] =0
 }
 
@@ -301,8 +311,8 @@ function changeProjection(type){
 }
 
 function saveModel(){
-  const verticesModel = model[state.number]
-  const indicesModel = indices[state.number]
+  const verticesModel = model[number]
+  const indicesModel = indices[number]
   var result =[];
   for (let i = 0; i < verticesModel.length;i+=6){
     result.push(...multVerticesTransformMatrix(verticesModel.slice(i,i+6),worldMatrix))
