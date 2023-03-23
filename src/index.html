@@ -57,8 +57,12 @@
                     
                 </button>
                 <br/>
-                <button class="button_func shape" id="set-squarePyramid"" onclick="changeShape('square-pyramid')">
+                <button class="button_func shape" id="set-squarePyramid" onclick="changeShape('square-pyramid')">
                     <image src="https://cdn-icons-png.flaticon.com/512/3951/3951306.png" width="24px" style="background: none;"></image>
+                </button>
+                <br />
+                <button class="button_func shape" id="set-loadedModel" onclick=" changeShape('load')">
+                    <i class="fa-solid fa-upload"></i>
                 </button>
             </div>
             <canvas id="canvas" width="1200" height="600"></canvas>
@@ -69,7 +73,8 @@
                 </div>
                 <button class="button_func text" id="reset-draw" onclick="resetCameraView()">Reset</button>
                 <button class="button_func text" id="upload-button">Upload</button>
-                <input type="file" id="file-input" style="display:none">
+                <button class="button_func text" id="save-button" onclick="saveModel()">Save</button>
+                <input type="file" id="file-input" onchange="loadModel()" style="display:none">
             </div>
         </div>
         <div class="row" id="full-row">

@@ -178,6 +178,8 @@ function changeShape(model){
     state.number = 1;
   } else if (model=='square-pyramid'){
     state.number = 2;
+  } else{
+    state.number = 3;
   }
 }
 
@@ -240,9 +242,8 @@ document.getElementById("color-picker").addEventListener('input', changeColor, f
 
 function rotateModel(id, angle) {
   stopAnimation()
-  rotAngle[id] += toRadian(angle-rotated[id])
+  rotAngle[id] = toRadian(angle)
   rotated = rotAngle;
-  console.log(rotated);
 }
 
 function translateModel(id, value) {
@@ -297,4 +298,65 @@ function changeProjection(type){
     stopAnimation()
     oblique(projMatrix, -2.3, 5.7, -1.3, 2.7, 0.1, 100.0, toRadian(-85), toRadian(-85))
   }
+}
+
+function saveModel(){
+  const verticesModel = model[state.number]
+  const indicesModel = indices[state.number]
+  var result =[];
+  for (let i = 0; i < verticesModel.length;i+=6){
+    result.push(...multVerticesTransformMatrix(verticesModel.slice(i,i+6),worldMatrix))
+  }
+  const jsonObj = {
+    vertices: result,
+    indices: indicesModel
+  };
+  const jsonFile = JSON.parse(JSON.stringify(jsonObj));
+
+  const downloadFile = document.createElement("a");
+  downloadFile.href = URL.createObjectURL(new Blob([JSON.stringify(jsonFile, null, 2)], {
+    type: "text/plain"
+  }));
+  downloadFile.setAttribute("download", "Model.json");
+  document.body.appendChild(downloadFile);
+  downloadFile.click();
+  document.body.removeChild(downloadFile);
+  
+}
+
+function multVerticesTransformMatrix(vertices,transformMatrix) {
+  const vert = vertices.slice(0,3)
+  vert.push(1.0);
+  const out = []
+  for (let i = 0; i < 1; i++) {
+    for (let j = 0; j < 4; j++) {
+      let sum = 0;
+      for (let k = 0; k < 4; k++) {
+        sum += vert[4 * i + k] * transformMatrix[4 * k + j];
+
+      }
+      out[4 * i + j] = sum;
+    }
+  }
+  out.splice(3,1)
+  out.push(...vertices.slice(3, 6))
+  return out;
+}
+
+function loadModel(){
+  const file = document.getElementById("file-input").files[0];
+  var fileread;
+  let reader = new FileReader();
+
+  reader.readAsText(file);
+  model[3] =[]
+  indices[3] =[]
+  reader.onload = function () {
+    fileread = JSON.parse(reader.result);
+    console.log(fileread["vertices"]);
+    model[3].push(...fileread["vertices"])
+    indices[3].push(...fileread["indices"])
+  }
+
+  console.log(model[3])
 }

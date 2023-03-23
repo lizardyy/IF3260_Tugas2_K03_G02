@@ -485,3 +485,7 @@ for (var i = 0; i < 5; i++) {
 
 model.push(pyramidVertices);
 indices.push(pyramidIndices);
+
+
+model.push([])
+indices.push([])
