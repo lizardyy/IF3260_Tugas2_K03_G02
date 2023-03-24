@@ -1,6 +1,7 @@
 # Tugas 2 IF3260 Grafika Komputer
 
 <div align="center">
+    <img src="images.png" alt="gambar-web">
     <h2 align="center">3D Web-GL Hollow Object</h2>
 </div>
 
