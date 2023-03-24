@@ -69,7 +69,7 @@ function defaultState() {
   rotAngle = [0,0,0];
   translation = [0,0,0];
   scale = [1, 1, 1];
-  camAngle = 0;
+  camAngle = 0; 
   camRadius = 5;
   rotated = [0,0,0];
   color = [0.2 ,0.1 , 0.4];
@@ -115,6 +115,7 @@ window.onload = function init() {
   projMatrix = new Float32Array(16);
   lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0]);
   perspective(projMatrix, toRadian(45), canvas.width / canvas.height, 0.1, 100.0);
+  document.getElementById("perspective").checked = true;
 
   gl.uniformMatrix4fv(matViewLocation, gl.FALSE, viewMatrix);
   gl.uniformMatrix4fv(matProjLocation, gl.FALSE, projMatrix);
@@ -288,6 +289,8 @@ function resetCameraView(){
   camRadius = 5
   defaultState()
   changeCameraPosition()
+  shaderModel(color)
+  changeProjection('perspective')
   
   // reset value of slider
   inputs.forEach(function(item){
@@ -295,6 +298,14 @@ function resetCameraView(){
     item.value.innerText = item.input.defaultValue + item.unit;
   })
 
+  // reset value of all button
+  document.getElementById("shading").checked = true;
+  document.getElementById("color-picker").value = "#331A66";
+  document.getElementById("perspective").checked = true;
+  document.getElementById("set-cube").classList.add("active");
+  document.getElementById("set-triangularPrism").classList.remove("active");
+  document.getElementById("set-squarePyramid").classList.remove("active");
+  document.getElementById("set-loadedModel").classList.remove("active");
 }
 
 function stopAnimation(){
