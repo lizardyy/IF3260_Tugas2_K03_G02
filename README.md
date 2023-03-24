@@ -15,10 +15,7 @@
 | Mohamad Hilmi Rinaldi| 13520149 |
 
 ### **Cara Penggunaan**
-1. Membuat sesuatu
 
-> Tekan kursor
-
-2. Membuat sesuatu
-
-> Tekan
+1. Clone repository ini
+2. Buka file index.html yang terdapat pada folder src menggunakan web browser Anda. Pastikan gunakan Web Browser yang support WebGL.
+3. Pastikan canvas berhasil ditampilkan pada halaman web dan tidak terdapat pesan error.
