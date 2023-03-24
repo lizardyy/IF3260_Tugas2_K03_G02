@@ -288,7 +288,13 @@ function resetCameraView(){
   camRadius = 5
   defaultState()
   changeCameraPosition()
-  console.log('reset')
+  
+  // reset value of slider
+  inputs.forEach(function(item){
+    item.input.value = item.input.defaultValue;
+    item.value.innerText = item.input.defaultValue + item.unit;
+  })
+
 }
 
 function stopAnimation(){
